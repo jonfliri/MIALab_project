@@ -26,7 +26,7 @@ class ImagePostProcessing(pymia_fltr.Filter):
             params (FilterParams): The parameters.
 
         Returns:
-            sitk.Image: The post-processed image.
+            sitk.Image: The post-processed image. Test
         """
 
         # todo: replace this filter by a post-processing - or do we need post-processing at all?
