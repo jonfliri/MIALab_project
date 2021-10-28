@@ -3,6 +3,8 @@
 Uses the main libraries to verify the environment installation.
 """
 
+#Nic was here
+
 from datetime import datetime
 import matplotlib.pyplot as plt
 import numpy as np
