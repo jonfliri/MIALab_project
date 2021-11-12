@@ -145,3 +145,5 @@ class ImagePostProcessing(pymia_fltr.Filter):
 #         img_out = sitk.GetImageFromArray(map_soln_unary)
 #         img_out.CopyInformation(params.img_t1)
 #         return img_out
+
+
