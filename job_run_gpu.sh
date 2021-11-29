@@ -17,7 +17,7 @@
 # conda activate mialab
 
 # Run your code
-srun python3 bin/main.py
+sbatch python3 bin/main.py
 
 #module load python
 
