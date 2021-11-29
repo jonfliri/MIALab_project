@@ -10,17 +10,13 @@
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
 
+
 # Load Anaconda3
-# module load Anaconda3
-# eval "$(conda shell.bash hook)"
+module load Anaconda3
+eval "$(conda shell.bash hook)"
+
 # Load your environment
-# conda activate mialab
+conda activate mialab
 
 # Run your code
 sbatch python3 bin/main.py
-
-#module load python
-
-#pip install git+https://github.com/lucasb-eyer/pydensecrf.git
-
-
