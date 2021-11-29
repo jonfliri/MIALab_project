@@ -9,21 +9,17 @@
 #SBATCH --mail-type=ALL
 #SBATCH --output=%x_%j.out
 #SBATCH --error=%x_%j.err
-# Initialize
-mkdir MIALab_project
-cd MIALab_project
-git clone https://github.com/jonfliri/MIALab_project.git
 
 # Load Anaconda3
-module load Anaconda3
-eval "$(conda shell.bash hook)"
+# module load Anaconda3
+# eval "$(conda shell.bash hook)"
 # Load your environment
-conda activate mialab
+# conda activate mialab
 
 # Run your code
-srun python3 main_example_file.py
+srun python3 bin/main.py
 
-module load python
+#module load python
 
 #pip install git+https://github.com/lucasb-eyer/pydensecrf.git
 
