@@ -19,6 +19,7 @@ try:
     import mialab.data.structure as structure
     import mialab.utilities.file_access_utilities as futil
     import mialab.utilities.pipeline_utilities as putil
+    import mialab.filtering.postprocessing as postp
 except ImportError:
     # Append the MIALab root directory to Python path
     sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))
@@ -124,8 +125,14 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
         # evaluate segmentation without post-processing
         evaluator.evaluate(image_prediction, img.images[structure.BrainImageTypes.GroundTruth], img.id_)
 
+        # post-processing with dense CRF
+        # param = postp.DenseCRFParams.__init__(,,image_probabilities)
+
+
         images_prediction.append(image_prediction)
         images_probabilities.append(image_probabilities)
+
+
 
     # post-process segmentation and evaluate with post-processing
     post_process_params = {'simple_post': True}
@@ -133,6 +140,10 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
                                                      post_process_params, multi_process=True)
 
     for i, img in enumerate(images_test):
+        # post-processing with dense CRF
+        #param = postp.DenseCRFParams.__init__(,,image_probabilities[i])
+        print(image_probabilities)
+
         evaluator.evaluate(images_post_processed[i], img.images[structure.BrainImageTypes.GroundTruth],
                            img.id_ + '-PP')
 
