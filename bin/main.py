@@ -79,8 +79,8 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
     # warnings.warn('Random forest parameters not properly set.')
     forest = sk_ensemble.RandomForestClassifier(max_features=images[0].feature_matrix[0].shape[1],
-                                                n_estimators=10,
-                                                max_depth=10)
+                                                n_estimators=20,
+                                                max_depth=20)
 
     start_time = timeit.default_timer()
     forest.fit(data_train, labels_train)
@@ -142,7 +142,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
     for i, img in enumerate(images_test):
         # post-processing with dense CRF
         #param = postp.DenseCRFParams.__init__(,,image_probabilities[i])
-        print(image_probabilities)
+        #print(image_probabilities)
 
         evaluator.evaluate(images_post_processed[i], img.images[structure.BrainImageTypes.GroundTruth],
                            img.id_ + '-PP')
