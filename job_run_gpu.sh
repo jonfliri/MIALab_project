@@ -19,4 +19,4 @@ eval "$(conda shell.bash hook)"
 conda activate mialab
 
 # Run your code
-sbatch python3 bin/main.py
+srun python3 bin/main.py
