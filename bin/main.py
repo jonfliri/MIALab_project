@@ -126,7 +126,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
         evaluator.evaluate(image_prediction, img.images[structure.BrainImageTypes.GroundTruth], img.id_)
 
         # post-processing with dense CRF
-        # param = postp.DenseCRFParams.__init__(,,image_probabilities)
+        # param = postp.DenseCRFParams.__init__(img.images[structure.BrainImageTypes.T1w], img.images[structure.BrainImageTypes.T2w], image_probabilities)
 
 
         images_prediction.append(image_prediction)
@@ -135,7 +135,8 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
 
     # post-process segmentation and evaluate with post-processing
-    post_process_params = {'simple_post': True}
+    #post_process_params = {'simple_post': True}
+    post_process_params = {'crf_post': True}
     images_post_processed = putil.post_process_batch(images_test, images_prediction, images_probabilities,
                                                      post_process_params, multi_process=True)
 
