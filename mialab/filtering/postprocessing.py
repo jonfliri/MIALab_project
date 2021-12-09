@@ -95,10 +95,10 @@ class DenseCRF(pymia_fltr.Filter):
 
         img_probability = np.rollaxis(img_probability, 3, 0)
 
-        d = crf.DenseCRF(x * y * z, no_labels)  # width, height, nlabels
+        d = crf.DenseCRF2D(x * y, z, no_labels)  # width, height, nlabels
         U = crf_util.unary_from_softmax(img_probability)
-        #U = np.array(6, 255)
-        print(U.shape)
+        # U = np.array(6, 255)
+        # print(U.shape)
         U = np.ascontiguousarray(U)
         d.setUnaryEnergy(U)
         # d.setUnary(Constant(U)
