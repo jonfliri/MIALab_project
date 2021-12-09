@@ -180,7 +180,6 @@ def pre_process(id_: str, paths: dict, **kwargs) -> structure.BrainImage:
     """
 
     print('-' * 10, 'Processing', id_)
-
     # load image
     path = paths.pop(id_, '')  # the value with key id_ is the root directory of the image
     path_to_transform = paths.pop(structure.BrainImageTypes.RegistrationTransform, '')
@@ -292,7 +291,7 @@ def init_evaluator() -> eval_.Evaluator:
     """
 
     # initialize metrics
-    metrics = [metric.DiceCoefficient(), metric.HausdorffDistance(95)]
+    metrics = [metric.DiceCoefficient(), metric.prodorffDistance(95)]
     # todo: add hausdorff distance, 95th percentile (see metric.HausdorffDistance)
     warnings.warn('Initialized evaluation with the Dice coefficient. Do you know other suitable metrics?')
 

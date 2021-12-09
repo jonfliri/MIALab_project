@@ -78,8 +78,8 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
     # warnings.warn('Random forest parameters not properly set.')
     forest = sk_ensemble.RandomForestClassifier(max_features=images[0].feature_matrix[0].shape[1],
-                                                n_estimators=500,
-                                                max_depth=500)
+                                                n_estimators=10,
+                                                max_depth=10)
 
     start_time = timeit.default_timer()
     forest.fit(data_train, labels_train)
@@ -127,10 +127,20 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
         images_prediction.append(image_prediction)
         images_probabilities.append(image_probabilities)
 
+
+
+
     # post-process segmentation and evaluate with post-processing
     post_process_params = {'simple_post': True}
+    post_process_params = {'crf_post': True}
     images_post_processed = putil.post_process_batch(images_test, images_prediction, images_probabilities,
                                                      post_process_params, multi_process=True)
+
+
+
+
+
+
 
     for i, img in enumerate(images_test):
         evaluator.evaluate(images_post_processed[i], img.images[structure.BrainImageTypes.GroundTruth],
