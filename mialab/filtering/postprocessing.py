@@ -95,13 +95,11 @@ class DenseCRF(pymia_fltr.Filter):
 
         img_probability = np.rollaxis(img_probability, 3, 0)
 
-        d = crf.DenseCRF2D(x * y, z, no_labels)  # width, height, nlabels
+        d = crf.DenseCRF(z * y , x, no_labels)  # width, height, nlabels
         U = crf_util.unary_from_softmax(img_probability)
-        # U = np.array(6, 255)
-        # print(U.shape)
+        print(U.shape)
         U = np.ascontiguousarray(U)
         d.setUnaryEnergy(U)
-        # d.setUnary(Constant(U)
         print('Unaray Energy is set...')
         stack = np.stack([img_t2, img_ir], axis=3)
 
@@ -114,20 +112,22 @@ class DenseCRF(pymia_fltr.Filter):
         print('pairwise_energy is set...')
 
         # `compat` (Compatibility) is the "strength" of this potential.
-        # compat = 10
+        compat = 10
         # compat = np.array([1, 1], np.float32)
         # weight --> lower equals stronger
         # compat = np.array([[0, 10], [10, 1]], np.float32)
-        d.addPairwiseEnergy(pairwise_energy, compat= 10,
+        d.addPairwiseEnergy(pairwise_energy, compat= compat,
                             kernel=crf.DIAG_KERNEL,
                             normalization=crf.NORMALIZE_SYMMETRIC)
         print('Pairwise_Energy is added...')
+
+
         # add location only
-        # pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(.5,.5,.5), shape=(x, y, z))
+        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(.5,.5,.5), shape=(x, y, z))
         #
-        # d.addPairwiseEnergy(pairwise_gaussian, compat=.3,
-        #                     kernel=dcrf.DIAG_KERNEL,
-        #                     normalization=dcrf.NORMALIZE_SYMMETRIC)
+        d.addPairwiseEnergy(pairwise_gaussian, compat=.3,
+                             kernel=crf.DIAG_KERNEL,
+                             normalization=crf.NORMALIZE_SYMMETRIC)
 
         # compatibility, kernel and normalization
         Q_unary = d.inference(10)
