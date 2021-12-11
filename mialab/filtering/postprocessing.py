@@ -115,7 +115,7 @@ class DenseCRF(pymia_fltr.Filter):
         # the strength of the location and image content bi-laterals, respectively.
 
         # higher weight equals stronger
-        pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(1, 1, 1), schan=(1, 1), img=stack, chdim=3)
+        pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(1, 1, 1), schan=(10, 10), img=stack, chdim=3)
 
 
          # `compat` (Compatibility) is the "strength" of this potential.
@@ -129,7 +129,7 @@ class DenseCRF(pymia_fltr.Filter):
                           normalization=crf.NORMALIZE_SYMMETRIC)
 
         # add location only
-        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(5, 5, 5), shape=(x, y, z))
+        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(1, 1, 1), shape=(x, y, z))
         print('3')
 
         d.addPairwiseEnergy(pairwise_gaussian, compat=10,
