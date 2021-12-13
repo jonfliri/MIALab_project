@@ -78,8 +78,8 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
 
     # warnings.warn('Random forest parameters not properly set.')
     forest = sk_ensemble.RandomForestClassifier(max_features=images[0].feature_matrix[0].shape[1],
-                                                n_estimators=10,
-                                                max_depth=10)
+                                                n_estimators=20,
+                                                max_depth=20)
 
     start_time = timeit.default_timer()
     forest.fit(data_train, labels_train)
@@ -134,7 +134,7 @@ def main(result_dir: str, data_atlas_dir: str, data_train_dir: str, data_test_di
     post_process_params = {'simple_post': True}
     post_process_params = {'crf_post': True}
     images_post_processed = putil.post_process_batch(images_test, images_prediction, images_probabilities,
-                                                     post_process_params, multi_process=False)
+                                                     post_process_params, multi_process=True)
 
 
 

@@ -9,6 +9,7 @@ import pydensecrf.densecrf as crf
 import pydensecrf.utils as crf_util
 import pymia.filtering.filter as pymia_fltr
 import SimpleITK as sitk
+import scipy.ndimage
 
 
 class ImagePostProcessing(pymia_fltr.Filter):
@@ -31,7 +32,12 @@ class ImagePostProcessing(pymia_fltr.Filter):
 
         # todo: replace this filter by a post-processing - or do we need post-processing at all?
         # warnings.warn('No post-processing implemented. Can you think about something?')
-        print('hi')
+        img_arr = sitk.GetArrayFromImage(image)
+        gaussian = scipy.ndimage.gaussian_filter(img_arr, sigma = 25)
+
+        img_out = sitk.GetImageFromArray(gaussian)
+        img_out.CopyInformation(image)
+
         return image
 
     def __str__(self):
@@ -85,53 +91,54 @@ class DenseCRF(pymia_fltr.Filter):
 
         # some variables
         x = img_probability.shape[2]
-        print(x)
+        print(img_probability.shape)
         y = img_probability.shape[1]
         print(y)
         z = img_probability.shape[0]
         print(z)
         no_labels = img_probability.shape[3]
-        print(no_labels)
-
         img_probability = np.rollaxis(img_probability, 3, 0)
+        # print(img_probability)
 
-        d = crf.DenseCRF(z * y , x, no_labels)  # width, height, nlabels
+        d = crf.DenseCRF2D(y*z, x, no_labels) # , no_labels)  # width, height, nlabels
         U = crf_util.unary_from_softmax(img_probability)
         print(U.shape)
         U = np.ascontiguousarray(U)
         d.setUnaryEnergy(U)
-        print('Unaray Energy is set...')
+        print('1')
+
         stack = np.stack([img_t2, img_ir], axis=3)
+        print('2')
 
         # Create the pairwise bilateral term from the above images.
         # The two `s{dims,chan}` parameters are model hyper-parameters defining
         # the strength of the location and image content bi-laterals, respectively.
 
         # higher weight equals stronger
-        pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(1, 1, 1), schan=(1, 1), img=stack, chdim=3)
-        print('pairwise_energy is set...')
+        pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(.1, .1, .1), schan=(.1, .1), img=stack, chdim=3)
 
-        # `compat` (Compatibility) is the "strength" of this potential.
-        compat = 10
+
+         # `compat` (Compatibility) is the "strength" of this potential.
+        compat = 1
         # compat = np.array([1, 1], np.float32)
         # weight --> lower equals stronger
         # compat = np.array([[0, 10], [10, 1]], np.float32)
-        d.addPairwiseEnergy(pairwise_energy, compat= compat,
-                            kernel=crf.DIAG_KERNEL,
-                            normalization=crf.NORMALIZE_SYMMETRIC)
-        print('Pairwise_Energy is added...')
 
+        d.addPairwiseEnergy(pairwise_energy, compat=compat,
+                          kernel=crf.DIAG_KERNEL,
+                          normalization=crf.NORMALIZE_SYMMETRIC)
 
         # add location only
-        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(.5,.5,.5), shape=(x, y, z))
-        #
-        d.addPairwiseEnergy(pairwise_gaussian, compat=.3,
+        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(.1, .1, .1), shape=(x, y, z))
+        print('3')
+
+        d.addPairwiseEnergy(pairwise_gaussian, compat=1,
                              kernel=crf.DIAG_KERNEL,
                              normalization=crf.NORMALIZE_SYMMETRIC)
-
+        print('4')
         # compatibility, kernel and normalization
         Q_unary = d.inference(10)
-        print('Q_unary is set...')
+        print('5')
         # Q_unary, tmp1, tmp2 = d.startInference()
         #
         # for _ in range(10):
@@ -148,7 +155,5 @@ class DenseCRF(pymia_fltr.Filter):
 
         img_out = sitk.GetImageFromArray(map_soln_unary)
         img_out.CopyInformation(params.img_t1)
-        print('img_out')
-        return image
-
-
+        print('6')
+        return img_out
