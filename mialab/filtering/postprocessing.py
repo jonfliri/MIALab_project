@@ -137,7 +137,7 @@ class DenseCRF(pymia_fltr.Filter):
                              normalization=crf.NORMALIZE_SYMMETRIC)
         print('4')
         # compatibility, kernel and normalization
-        Q_unary = d.inference(5)
+        Q_unary = d.inference(10)
         print('5')
         # Q_unary, tmp1, tmp2 = d.startInference()
         #
