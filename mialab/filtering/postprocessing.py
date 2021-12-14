@@ -30,13 +30,7 @@ class ImagePostProcessing(pymia_fltr.Filter):
             sitk.Image: The post-processed image. Test
         """
 
-        # todo: replace this filter by a post-processing - or do we need post-processing at all?
-        # warnings.warn('No post-processing implemented. Can you think about something?')
-        img_arr = sitk.GetArrayFromImage(image)
-        gaussian = scipy.ndimage.gaussian_filter(img_arr, sigma = 25)
-
-        img_out = sitk.GetImageFromArray(gaussian)
-        img_out.CopyInformation(image)
+        print(1)
 
         return image
 
@@ -115,7 +109,7 @@ class DenseCRF(pymia_fltr.Filter):
         # the strength of the location and image content bi-laterals, respectively.
 
         # higher weight equals stronger
-        pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(1, 1, 1), schan=(1, 1), img=stack, chdim=3)
+        pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(1, 1, 1), schan=(.5, .5), img=stack, chdim=3)
 
 
          # `compat` (Compatibility) is the "strength" of this potential.
@@ -129,7 +123,7 @@ class DenseCRF(pymia_fltr.Filter):
                           normalization=crf.NORMALIZE_SYMMETRIC)
 
         # add location only
-        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(1, 1, 1), shape=(x, y, z))
+        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(5, 5, 5), shape=(x, y, z))
         print('3')
 
         d.addPairwiseEnergy(pairwise_gaussian, compat=1,
@@ -137,7 +131,7 @@ class DenseCRF(pymia_fltr.Filter):
                              normalization=crf.NORMALIZE_SYMMETRIC)
         print('4')
         # compatibility, kernel and normalization
-        Q_unary = d.inference(5)
+        Q_unary = d.inference(10)
         print('5')
         # Q_unary, tmp1, tmp2 = d.startInference()
         #
