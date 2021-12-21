@@ -59,7 +59,7 @@ class DenseCRFParams(pymia_fltr.FilterParams):
 
 class DenseCRF(pymia_fltr.Filter):
     """A dense conditional random field (dCRF).
-    Implements the work of Krähenbühl and Koltun, Efficient Inference in Fully Connected CRFs
+    Implements the work of KrÃ¤henbÃ¼hl and Koltun, Efficient Inference in Fully Connected CRFs
     with Gaussian Edge Potentials, 2012. The dCRF code is taken from https://github.com/lucasb-eyer/pydensecrf.
     """
 
@@ -109,11 +109,10 @@ class DenseCRF(pymia_fltr.Filter):
         # the strength of the location and image content bi-laterals, respectively.
 
         # higher weight equals stronger
-<<<<<<< Updated upstream
+
+
         pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(1, 1, 1), schan=(.5, .5), img=stack, chdim=3)
-=======
-        pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(.5, .5, .5), schan=(.5, .5), img=stack, chdim=3)
->>>>>>> Stashed changes
+
 
 
          # `compat` (Compatibility) is the "strength" of this potential.
@@ -127,11 +126,10 @@ class DenseCRF(pymia_fltr.Filter):
                           normalization=crf.NORMALIZE_SYMMETRIC)
 
         # add location only
-<<<<<<< Updated upstream
-        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(5, 5, 5), shape=(x, y, z))
-=======
-        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(.5, .5, .5), shape=(x, y, z))
->>>>>>> Stashed changes
+
+
+        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(1 , 1 , 1), shape=(x, y, z))
+
         print('3')
 
         d.addPairwiseEnergy(pairwise_gaussian, compat=10,
@@ -139,11 +137,9 @@ class DenseCRF(pymia_fltr.Filter):
                              normalization=crf.NORMALIZE_SYMMETRIC)
         print('4')
         # compatibility, kernel and normalization
-<<<<<<< Updated upstream
+
         Q_unary = d.inference(10)
-=======
-        Q_unary = d.inference(75)
->>>>>>> Stashed changes
+
         print('5')
         # Q_unary, tmp1, tmp2 = d.startInference()
         #
