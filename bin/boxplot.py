@@ -58,7 +58,7 @@ def set_boxplot_format(bp, color):
     plt.setp(bp['whiskers'], color=color)
     plt.setp(bp['caps'], color=color)
     plt.setp(bp['caps'], linewidth=0)
-    plt.setp(bp['medians'], color=color)
+    plt.setp(bp['medians'], color= 'red')
     plt.setp(bp['medians'], linewidth=1.5)
     plt.setp(bp['fliers'], marker='.')
     plt.setp(bp['fliers'], markerfacecolor='black')
@@ -114,13 +114,13 @@ def main():
     # but you will need to install it first ('pip install pandas') and import it to this file ('import pandas as pd')
 
     # Configuration
-    metric_to_compute = ('DICE', 'HDRFDST')
-    structures_to_compute = ('Thalamus', )
-    experiment_paths = ('/mia-result/2021-10-11-09-07-25', '/mia-result/2021-10-11-09-07-25')
-    experiment_names = ('First Experiment', 'Second Experiment')
-    plot_output_directory = './mia-result/'
-    plot_title = ('Comparison of Experiments on Thalamus', )
-    plot_ylabels = ('Dice', 'Hausdorff-Distance')
+    metric_to_compute = ('DICE',)
+    structures_to_compute = ('Amygdala', 'Thalamus')
+    experiment_paths = ('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/Data_2/Before', 'C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/Data_2/After')
+    experiment_names = ('Amygdala', 'Amigdala-PP')
+    plot_output_directory = './mia-result/Boxplots'
+    plot_title = ('Comparison of Experiments', )
+    plot_ylabels = ('Dice',)
     plot_timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
 
     # Check the configuration
