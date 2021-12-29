@@ -7,22 +7,45 @@ import os
 from datetime import datetime
 
 # Saving Boxplot
-output_directory = ('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/Boxplots')
-file_path = os.path.join(output_directory, f'plot_.png')
+output_directory = ('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/07_Boxplots')
 
 
 
-data_P = pd.read_csv('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/Boxplots/Data_3.csv', sep = ';')
+#load data
+data_P = pd.read_csv('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/07_Boxplots/Overall_Dataset_DICE.csv', sep = ';')
 print(data_P)
 
 
-#data = [data_1, data_2, data_3, data_4]
 
-titel = ('Comparison')
-labels = ('Amygdala', 'Amygdala-PP', 'GreyMatter', 'GreyMatter-PP', 'Thalamus', 'Thalamus-PP', 'WhiteMatter','WhiteMatter-PP')
+labels = ('A', 'A-PP', 'GM', 'GM-PP', 'H', 'H-PP', 'T', 'T-PP', 'WM','WM-PP')
+#labels = ('1', '1-PP', '2', '2-PP', '3', '3-PP', '4', '4-PP', '5', '5-PP')
+labels = ('Overall', 'Overall-PP')
 
-plt.boxplot(data_P, labels = labels)
+Boxplot = plt.boxplot(data_P, labels = labels)
 
-plt.show()
 
-#plt.savefig(file_path)
+plt.setp(Boxplot['boxes'], color= 'black')
+plt.setp(Boxplot['whiskers'], color= 'black')
+plt.setp(Boxplot['caps'], color= 'black')
+plt.setp(Boxplot['caps'], linewidth=1)
+plt.setp(Boxplot['medians'], color= 'red')
+plt.setp(Boxplot['medians'], linewidth=1)
+plt.setp(Boxplot['fliers'], marker='.')
+plt.setp(Boxplot['fliers'], markerfacecolor='black')
+plt.setp(Boxplot['fliers'], alpha=1)
+plt.grid(color = 'k', linewidth = 0.1, axis = 'y')
+plt.ylabel('STD')
+plt.ylim(0, .1)
+plt.ylabel('Dice')
+plt.ylim(0, 1)
+plt.xlabel('Structure')
+
+plt.title("Standart deviation of the different Brain structures before and after \n post-processing over all Datasets")
+#plt.title("Dice of the different Datasets before and after \n Post-Processing")
+plt.title("\nOverall Dice before and after post-prossesing")
+
+
+#plt.show()
+file_path = os.path.join(output_directory, f'Overall_Datasets_DICE.png')
+plt.savefig(file_path)
+plt.close()

@@ -119,8 +119,7 @@ def main():
     experiment_paths = ('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/Data_2/Before', 'C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/Data_2/After')
     experiment_names = ('Amygdala', 'Amigdala-PP')
     plot_output_directory = './mia-result/Boxplots'
-    plot_title = ('Comparison of Experiments', )
-    plot_ylabels = ('Dice',)
+
     plot_timestamp = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
 
     # Check the configuration
