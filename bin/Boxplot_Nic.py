@@ -12,8 +12,8 @@ output_directory = ('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin
 
 
 #load data
-data_P = pd.read_csv('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/07_Boxplots/Overall_Dataset_DICE.csv', sep = ';')
-print(data_P)
+data = pd.read_csv('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/07_Boxplots/Overall_Dataset_DICE.csv', sep = ';')
+print(data)
 
 
 
@@ -21,7 +21,7 @@ labels = ('A', 'A-PP', 'GM', 'GM-PP', 'H', 'H-PP', 'T', 'T-PP', 'WM','WM-PP')
 #labels = ('1', '1-PP', '2', '2-PP', '3', '3-PP', '4', '4-PP', '5', '5-PP')
 labels = ('Overall', 'Overall-PP')
 
-Boxplot = plt.boxplot(data_P, labels = labels)
+Boxplot = plt.boxplot(data, labels = labels)
 
 
 plt.setp(Boxplot['boxes'], color= 'black')
