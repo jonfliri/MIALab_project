@@ -112,9 +112,6 @@ class DenseCRF(pymia_fltr.Filter):
 
         pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(1, 1, 1), schan=(.5, .5), img=stack, chdim=3)
 
-        pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(.5, .5, .5),
-                                                             schan=(.5, .5), img=stack, chdim=3)
-
          # `compat` (Compatibility) is the "strength" of this potential.
         compat = 10
         # compat = np.array([1, 1], np.float32)
@@ -127,10 +124,8 @@ class DenseCRF(pymia_fltr.Filter):
 
         # add location only
 
-        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(5, 5, 5), shape=(x, y, z))
+        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(1, 1, 1), shape=(x, y, z))
 
-        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(.5, .5, .5),
-                                                              shape=(x, y, z))
 
         print('3')
 
@@ -142,7 +137,6 @@ class DenseCRF(pymia_fltr.Filter):
 
         Q_unary = d.inference(10)
 
-        Q_unary = d.inference(75)
 
         print('5')
         # Q_unary, tmp1, tmp2 = d.startInference()
