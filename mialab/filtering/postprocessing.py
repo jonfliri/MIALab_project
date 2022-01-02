@@ -59,7 +59,7 @@ class DenseCRFParams(pymia_fltr.FilterParams):
 
 class DenseCRF(pymia_fltr.Filter):
     """A dense conditional random field (dCRF).
-    Implements the work of KrÃ¤henbÃ¼hl and Koltun, Efficient Inference in Fully Connected CRFs
+    Implements the work of Krähenbühl and Koltun, Efficient Inference in Fully Connected CRFs
     with Gaussian Edge Potentials, 2012. The dCRF code is taken from https://github.com/lucasb-eyer/pydensecrf.
     """
 
@@ -94,7 +94,7 @@ class DenseCRF(pymia_fltr.Filter):
         img_probability = np.rollaxis(img_probability, 3, 0)
         # print(img_probability)
 
-        d = crf.DenseCRF2D(y*z, x, no_labels) # , no_labels)  # width, height, nlabels
+        d = crf.DenseCRF2D(y*z, x, no_labels) # width, height, nlabels
         U = crf_util.unary_from_softmax(img_probability)
         print(U.shape)
         U = np.ascontiguousarray(U)
@@ -110,11 +110,10 @@ class DenseCRF(pymia_fltr.Filter):
 
         # higher weight equals stronger
 
-
         pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(1, 1, 1), schan=(.5, .5), img=stack, chdim=3)
 
-
-
+        pairwise_energy = crf_util.create_pairwise_bilateral(sdims=(.5, .5, .5),
+                                                             schan=(.5, .5), img=stack, chdim=3)
 
          # `compat` (Compatibility) is the "strength" of this potential.
         compat = 10
@@ -128,9 +127,10 @@ class DenseCRF(pymia_fltr.Filter):
 
         # add location only
 
+        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(5, 5, 5), shape=(x, y, z))
 
-        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(1 , 1 , 1), shape=(x, y, z))
-
+        pairwise_gaussian = crf_util.create_pairwise_gaussian(sdims=(.5, .5, .5),
+                                                              shape=(x, y, z))
 
         print('3')
 
@@ -141,6 +141,8 @@ class DenseCRF(pymia_fltr.Filter):
         # compatibility, kernel and normalization
 
         Q_unary = d.inference(10)
+
+        Q_unary = d.inference(75)
 
         print('5')
         # Q_unary, tmp1, tmp2 = d.startInference()
