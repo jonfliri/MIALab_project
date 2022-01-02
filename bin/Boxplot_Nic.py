@@ -12,14 +12,14 @@ output_directory = ('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin
 
 
 #load data
-data = pd.read_csv('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/07_Boxplots/Overall_Dataset_DICE.csv', sep = ';')
+data = pd.read_csv('C:/Users/nickr/OneDrive/Dokumente/GitHub/MIALab_project/bin/mia-result/07_Boxplots/Structures_all_Datasets_STD.csv', sep = ';')
 print(data)
 
 
 
 labels = ('A', 'A-PP', 'GM', 'GM-PP', 'H', 'H-PP', 'T', 'T-PP', 'WM','WM-PP')
 #labels = ('1', '1-PP', '2', '2-PP', '3', '3-PP', '4', '4-PP', '5', '5-PP')
-labels = ('Overall', 'Overall-PP')
+#labels = ('Overall', 'Overall-PP')
 
 Boxplot = plt.boxplot(data, labels = labels)
 
@@ -34,18 +34,19 @@ plt.setp(Boxplot['fliers'], marker='.')
 plt.setp(Boxplot['fliers'], markerfacecolor='black')
 plt.setp(Boxplot['fliers'], alpha=1)
 plt.grid(color = 'k', linewidth = 0.1, axis = 'y')
+plt.xlabel('Structure')
 plt.ylabel('STD')
 plt.ylim(0, .1)
-plt.ylabel('Dice')
-plt.ylim(0, 1)
-plt.xlabel('Structure')
+#plt.ylabel('Dice')
+#plt.ylim(0, 1)
 
-plt.title("Standart deviation of the different Brain structures before and after \n post-processing over all Datasets")
-#plt.title("Dice of the different Datasets before and after \n Post-Processing")
-plt.title("\nOverall Dice before and after post-prossesing")
+
+plt.title("Standard deviation of the different brain structures before and after \n post-processing over all datasets")
+#plt.title("Dice of the different Datasets before and after \n post-processing")
+#plt.title("Overall dice before and after \n post-processing")
 
 
 #plt.show()
-file_path = os.path.join(output_directory, f'Overall_Datasets_DICE.png')
+file_path = os.path.join(output_directory, f'Structures_all_Datasets_STD.png')
 plt.savefig(file_path)
 plt.close()
